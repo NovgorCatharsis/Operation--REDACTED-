@@ -3,7 +3,9 @@ using UnityEngine;
 public class OrdersController : MonoBehaviour
 {
     private PlayerInputController playerInputController;
-    public event Action UnitsMoved;
+    private EnemyController enemyController;
+    public event Action Moved;
+    
     public Vector3 targetedPosition;
     private RaycastHit hit;
     private Ray ray;
@@ -12,6 +14,7 @@ public class OrdersController : MonoBehaviour
     {
         playerInputController = gameObject.GetComponent<PlayerInputController>();
         playerInputController.RightClickPressed += MoveUnits;
+        playerInputController.LeftClickPressed += MarkEnemy;
 	}
 
     private void MoveUnits()
@@ -20,9 +23,25 @@ public class OrdersController : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             targetedPosition = hit.point;
-            targetedPosition = new Vector3 (targetedPosition.x, targetedPosition.y+0.1f, targetedPosition.z);
-            UnitsMoved?.Invoke();
+            Moved?.Invoke();
             Debug.Log(targetedPosition);
+        } 
+    }
+
+    private void MarkEnemy()
+    {
+        ray = Camera.main.ScreenPointToRay(playerInputController.mousePosition);
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.transform == null) return;
+            if (hit.transform.gameObject.CompareTag("Enemy"))
+            {
+                Debug.Log(hit.transform.gameObject.name);
+                enemyController = hit.transform.gameObject.GetComponent<EnemyController>();
+
+                enemyController.isMarked = true;
+                hit.transform.GetChild(0).gameObject.SetActive(true); // Marker visibility
+            }   
         } 
     }
 }

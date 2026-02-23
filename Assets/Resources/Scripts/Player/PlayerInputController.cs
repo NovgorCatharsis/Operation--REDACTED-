@@ -6,8 +6,10 @@ public class PlayerInputController : MonoBehaviour
 {
     public Vector3 movementInputVector { get; private set; }
     public Vector2 mousePosition { get; private set; }
+    public Vector2 mouseDelta { get; private set; }
 
     public event Action RightClickPressed;
+    public event Action LeftClickPressed;
 
     private void OnMove(InputValue inputValue)
     {
@@ -23,8 +25,15 @@ public class PlayerInputController : MonoBehaviour
     {
         if (inputValue.isPressed)
         {
-            Debug.Log("2");
             RightClickPressed?.Invoke();
+        }
+    }
+
+    private void OnLeftClick(InputValue inputValue)
+    {
+        if (inputValue.isPressed)
+        {
+            LeftClickPressed?.Invoke();
         }
     }
 }

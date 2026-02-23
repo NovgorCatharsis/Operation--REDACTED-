@@ -15,16 +15,16 @@ public class PlayerMovementController : MonoBehaviour
         rigidBody = gameObject.GetComponent<Rigidbody>();
     }
 
-    private void FixedUpdate()
-    {
-        velocity = new Vector3
-        (
-            -playerInputConroller.movementInputVector.z,
-            playerInputConroller.movementInputVector.y,
-            playerInputConroller.movementInputVector.x
-        ) 
-        * flySpeed;
+    // private void FixedUpdate()
+    // {
+    //     velocity = new Vector3
+    //     (
+    //         -playerInputConroller.movementInputVector.z,
+    //         playerInputConroller.movementInputVector.y,
+    //         playerInputConroller.movementInputVector.x
+    //     ) 
+    //     * flySpeed;
 
-        rigidBody.linearVelocity = velocity;
-    }
+    //     rigidBody.linearVelocity = velocity;
+    // }
 }
