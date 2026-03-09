@@ -1,0 +1,11 @@
+using UnityEngine;
+
+public class FrameRate : MonoBehaviour
+{
+    private int targetFrameRate = 60;
+    private void Start()
+    {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = targetFrameRate;
+    }
+}

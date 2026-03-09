@@ -11,8 +11,9 @@ public class EnemyController : MonoBehaviour
     // [SerializeField] private float moveSpeed;
     // private OrdersController ordersController;
     // private PlayerInputController playerInputConroller;
-    [SerializeField] private float reloadTime;
+    private float reloadTime = 1000;
     [SerializeField] private float viewRange;
+    [SerializeField] private float revealRange;
     [SerializeField] private float attackRange;
 
     public bool isMarked;
@@ -29,7 +30,6 @@ public class EnemyController : MonoBehaviour
         isReloaded = true;
         agent = gameObject.GetComponent<NavMeshAgent>();
         operatives = GameObject.FindGameObjectsWithTag("Operative");
-
     }
     private void Update()
     {
@@ -53,7 +53,16 @@ public class EnemyController : MonoBehaviour
             if (Vector3.Distance(transform.position, attackTarget.transform.position) < attackRange)
             //if (Physics.Raycast(transform.position, attackTarget.transform.position, out hit, attackRange))
             {
-                Attack(attackTarget);
+                if (isReloaded) Attack(attackTarget);
+            }
+
+            if (Vector3.Distance(transform.position, attackTarget.transform.position) < revealRange)
+            {
+                gameObject.layer = LayerMask.NameToLayer("Default");
+            }
+            else if (!isMarked)
+            {
+                gameObject.layer = LayerMask.NameToLayer("Enemy");
             }
         }
     }
@@ -64,7 +73,7 @@ public class EnemyController : MonoBehaviour
         Debug.Log("KILLING");
         attackTarget = null;
         isReloaded = false;
-        Destroy(target);
+        target.GetComponent<OperativeDeath>().Death();
         StartCoroutine(Reload());
     }
 

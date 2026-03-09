@@ -19,7 +19,8 @@ public class OrdersController : MonoBehaviour
 
     private void MoveUnits()
     {
-        ray = Camera.main.ScreenPointToRay(playerInputController.mousePosition);
+        ray = Camera.main.ScreenPointToRay(playerInputController.mousePosition); //From mouse position
+        //ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f)); //From center of the screen
         if (Physics.Raycast(ray, out hit))
         {
             targetedPosition = hit.point;
@@ -37,6 +38,7 @@ public class OrdersController : MonoBehaviour
             if (hit.transform.gameObject.CompareTag("Enemy"))
             {
                 Debug.Log(hit.transform.gameObject.name);
+                hit.transform.gameObject.layer = LayerMask.NameToLayer("Default");
                 enemyController = hit.transform.gameObject.GetComponent<EnemyController>();
 
                 enemyController.isMarked = true;

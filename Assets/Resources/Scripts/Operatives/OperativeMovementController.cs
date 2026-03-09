@@ -15,6 +15,18 @@ public class OperativeMovementController : MonoBehaviour
         ordersController.Moved += Moved;
 	}
 
+    private void Update()
+    {
+        if (agent.velocity == Vector3.zero)
+        {
+            GetComponent<AudioSource>().enabled = false;
+        }
+        else 
+        {             
+            GetComponent<AudioSource>().enabled = true; 
+        }
+    }
+
     void Moved()
     {
         if (ordersController.targetedPosition != null)
